@@ -4,9 +4,9 @@
   <p align="center">
     This is command line tool made with .NET to generate 3d terrain from grayscale HeightMaps
 	<br>
-    <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
-    <a href="https://github.com/github_username/repo_name/issues">Report Bug</a>
-    <a href="https://github.com/github_username/repo_name/issues">Request Feature</a>
+    <a href="https://github.com/shanto462/HeightMapTo3dTerrain"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/shanto462/HeightMapTo3dTerrain/issues">Report Bug</a>
+    <a href="https://github.com/shanto462/HeightMapTo3dTerrain/issues">Request Feature</a>
   </p>
 </p>
 
@@ -64,7 +64,7 @@ You will need **.NET 5.0, .NET Core 3.1** and .**NET Framework**.
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/github_username/repo_name.git
+   git clone https://github.com/shanto462/HeightMapTo3dTerrain.git
    ```
 2. Restore Nugets packages and Build
 
@@ -83,7 +83,7 @@ HeightMapTo3dTerrain.exe /dir/a.png /dir/out.obj -200 200
 <!-- ROADMAP -->
 ## Roadmap
 
-See the [open issues](https://github.com/github_username/repo_name/issues) for a list of proposed features (and known issues).
+See the [open issues](https://github.com/shanto462/HeightMapTo3dTerrain/issues) for a list of proposed features (and known issues).
 
 
 
@@ -113,4 +113,4 @@ Distributed under the MIT License. See `LICENSE` for more information.
 Your Name - Shanto
 Email - <shalahuddinshanto@gmail.com>
 
-Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
+Project Link: [https://github.com/github_username/repo_name](https://github.com/shanto462/HeightMapTo3dTerrain)
