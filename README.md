@@ -111,6 +111,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 ## Contact
 
 Your Name - Shanto
+<br>
 Email - <shalahuddinshanto@gmail.com>
 
-Project Link: [https://github.com/github_username/repo_name](https://github.com/shanto462/HeightMapTo3dTerrain)
+Project Link: [https://github.com/shanto462/HeightMapTo3dTerrain](https://github.com/shanto462/HeightMapTo3dTerrain)
