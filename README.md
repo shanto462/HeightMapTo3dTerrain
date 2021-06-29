@@ -44,7 +44,12 @@
 ## About The Project
 
 This tool generates a wavefront obj file from grayscale heightmaps.
+Using the heightmap of Pasedena, California given in the sample heightmap folder
 
+<p float="left">
+  <img src="https://postimg.cc/nCXPSb3g" width="300" />
+  <img src="https://postimg.cc/gxCFHkdg" width="700" /> 
+</p>
 
 ### Built With
 
