@@ -34,7 +34,10 @@ namespace HeightMapTo3dTerrain
         {
             Console.WriteLine
             (
-                "Usage \nHeightMapTo3dTerrain.exe -sourcefile -destinationfile \nHeightMapTo3dTerrain.exe /dir/a.png /dir/out.png"
+                @"Usage:
+                HeightMapTo3dTerrain.exe -sourcefile -destinationfile -minHeight -maxHeight
+                Make sure input image has same width and height
+                HeightMapTo3dTerrain.exe /dir/a.png /dir/out.obj -200 200"
             );
         }
 
