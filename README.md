@@ -53,7 +53,7 @@ This tool generates a wavefront obj file from grayscale heightmaps.
 <!-- GETTING STARTED -->
 ## Getting Started
 
-To get a local copy up and running follow these simple steps.
+To get a local copy up and running by following these simple steps.
 
 ### Prerequisites
 
