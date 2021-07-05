@@ -59,7 +59,7 @@ Using the heightmap of Pasedena, California given in the sample heightmap folder
 <!-- GETTING STARTED -->
 ## Getting Started
 
-To get a local copy up and running by following these simple steps.
+To get a local copy up and running, follow these simple steps.
 
 ### Prerequisites
 
@@ -116,7 +116,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - Shanto
+Name - Shanto
 <br>
 Email - <shalahuddinshanto@gmail.com>
 
