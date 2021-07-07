@@ -2,7 +2,7 @@
   <h3 align="center">HeightMapTo3dTerrain</h3>
 
   <p align="center">
-    This is command line tool made with .NET to generate 3d terrain from grayscale HeightMaps
+    This is a command line tool made with .NET to generate 3d terrain from grayscale HeightMaps
 	<br>
     <a href="https://github.com/shanto462/HeightMapTo3dTerrain"><strong>Explore the docs »</strong></a>
     <a href="https://github.com/shanto462/HeightMapTo3dTerrain/issues">Report Bug</a>
