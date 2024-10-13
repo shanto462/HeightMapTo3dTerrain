@@ -27,19 +27,19 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-if (args.Length < 5)
+if (args.Length < 4)
 {
     ShowHelp();
     return;
 }
 
-if (!int.TryParse(args[3], out int minHeight) || !int.TryParse(args[4], out int maxHeight))
+if (!int.TryParse(args[2], out int minHeight) || !int.TryParse(args[3], out int maxHeight))
 {
     ShowHelp();
     return;
 }
 
-if (new ObjectFileGenerator(args[1], args[2], minHeight, maxHeight).Generate())
+if (new ObjectFileGenerator(args[0], args[1], minHeight, maxHeight).Generate())
 {
     Console.WriteLine("Successfully Generated!");
 }

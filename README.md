@@ -63,8 +63,7 @@ To get a local copy up and running, follow these simple steps.
 
 ### Prerequisites
 
-This Visual Studio Project targets multiple runtimes.
-You will need **.NET 5.0, .NET Core 3.1** and .**NET Framework**.
+This Visual Studio Project targets .NET 8.
 
 ### Installation
 

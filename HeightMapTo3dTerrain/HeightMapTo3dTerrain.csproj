@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFrameworks>net8.0</TargetFrameworks>
-    <PublishAot>False</PublishAot>
+    <PublishAot>True</PublishAot>
   </PropertyGroup>
 
   <ItemGroup>
