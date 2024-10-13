@@ -53,7 +53,7 @@ static void ShowHelp()
     Console.WriteLine
     (
         @"Usage:
-                HeightMapTo3dTerrain.exe -sourcefile -destinationfile -minHeight -maxHeight
+                HeightMapTo3dTerrain.exe -sourceFile -destinationFile -minHeight -maxHeight
                 Make sure input image has same width and height
                 HeightMapTo3dTerrain.exe /dir/a.png /dir/out.obj -200 200"
     );
