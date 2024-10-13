@@ -23,6 +23,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 
+using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -34,39 +35,36 @@ namespace HeightMapTo3dTerrain
 {
     public class HeightMap : IDisposable
     {
-        private readonly string filelocation;
+        private readonly SKBitmap heightMap;
 
-        private Bitmap hmap;
         private bool disposedValue;
 
-        public HeightMap(string filelocation)
+        public HeightMap(string fileLocation)
         {
-            this.filelocation = filelocation;
+            if (!File.Exists(fileLocation))
+                throw new FileNotFoundException($"Couldn't found the file {fileLocation}");
 
-            if (!File.Exists(filelocation))
-                throw new FileNotFoundException($"Coundn't found the file {filelocation}");
+            heightMap = SKBitmap.Decode(File.ReadAllBytes(fileLocation));
 
-            hmap = (Bitmap)Image.FromFile(filelocation);
-
-            if (hmap.Width != hmap.Height)
+            if (heightMap.Width != heightMap.Height)
                 throw new NotSupportedException("Please provide heightmap with same width and height!");
         }
 
 
-        public Color GetIndex(int i, int j)
+        private SKColor GetIndex(int i, int j)
         {
-            return hmap.GetPixel(i, j);
+            return heightMap.GetPixel(i, j);
         }
 
         public Vector3 GetVector3(int i, int j)
         {
             var color = GetIndex(i, j);
-            return new Vector3(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f);
+            return new Vector3(color.Red / 255.0f, color.Green / 255.0f, color.Blue / 255.0f);
         }
 
-        public int Height => hmap.Height;
+        public int Height => heightMap.Height;
 
-        public int Width => hmap.Width;
+        public int Width => heightMap.Width;
 
         protected virtual void Dispose(bool disposing)
         {
@@ -74,7 +72,7 @@ namespace HeightMapTo3dTerrain
             {
                 if (disposing)
                 {
-                    hmap = null;
+                    heightMap.Dispose();
                 }
 
                 disposedValue = true;

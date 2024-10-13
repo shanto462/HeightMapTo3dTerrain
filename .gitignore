@@ -1,2 +1,7 @@
-.vs 
-HeightMapTo3dTerrain\bin
+.vs
+
+HeightMapTo3dTerrain/bin/
+HeightMapTo3dTerrain/obj/
+/.vs
+/HeightMapTo3dTerrain/SampleHeightMaps
+/HeightMapTo3dTerrain/SampleHeightMaps

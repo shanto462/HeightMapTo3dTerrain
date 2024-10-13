@@ -22,51 +22,39 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 
+using HeightMapTo3dTerrain;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace HeightMapTo3dTerrain
+if (args.Length < 5)
 {
-    class Program
-    {
-        public static void ShowHelp()
-        {
-            Console.WriteLine
-            (
-                @"Usage:
+    ShowHelp();
+    return;
+}
+
+if (!int.TryParse(args[3], out int minHeight) || !int.TryParse(args[4], out int maxHeight))
+{
+    ShowHelp();
+    return;
+}
+
+if (new ObjectFileGenerator(args[1], args[2], minHeight, maxHeight).Generate())
+{
+    Console.WriteLine("Successfully Generated!");
+}
+else
+{
+    Console.WriteLine("Terrain Generation Failed!");
+}
+
+static void ShowHelp()
+{
+    Console.WriteLine
+    (
+        @"Usage:
                 HeightMapTo3dTerrain.exe -sourcefile -destinationfile -minHeight -maxHeight
                 Make sure input image has same width and height
                 HeightMapTo3dTerrain.exe /dir/a.png /dir/out.obj -200 200"
-            );
-        }
-
-        static void Main(string[] args)
-        {
-            if (args.Length < 4)
-            {
-                ShowHelp();
-                return;
-            }
-
-            int minHeight = 0;
-            int maxHeight = 0;
-
-            if (!int.TryParse(args[2], out minHeight) || !int.TryParse(args[3], out maxHeight))
-            {
-                ShowHelp();
-                return;
-            }
-
-            if (new _3dGenerator(args[0], args[1], minHeight, maxHeight).Generate())
-            {
-                Console.WriteLine("Successfully Generated!");
-            }
-            else
-            {
-                Console.WriteLine("Terrain Generation Failed!");
-            }
-
-        }
-    }
+    );
 }

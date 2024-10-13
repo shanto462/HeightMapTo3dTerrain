@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "HeightMapTo3dTerrain": {
+      "commandName": "Project",
+      "commandLineArgs": "HeightMapTo3dTerrain.exe D:\\Automation\\HeightMapTo3dTerrain\\HeightMapTo3dTerrain\\SampleHeightMaps\\balaichari.png D:\\Automation\\HeightMapTo3dTerrain\\HeightMapTo3dTerrain\\SampleHeightMaps\\out.obj -200 200"
+    }
+  }
+}
