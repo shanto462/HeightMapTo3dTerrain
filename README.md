@@ -28,14 +28,14 @@ M4 Pro.
 
 | Input heightmap | Output mesh | Result |
 | --- | --- | --- |
-| <img src="assets/gallery/pasadena_input.jpg" width="200" alt="Pasadena (v1 sample, 8-bit) heightmap"> | <img src="assets/gallery/pasadena_output.jpg" width="300" alt="Pasadena (v1 sample, 8-bit) mesh"> | **Pasadena (v1 sample, 8-bit)**<br>800×800 px<br>157,014 vertices (24.5% of pixels)<br>313,052 triangles<br>max error 0.79 units<br>0.15 s |
-| <img src="assets/gallery/everest_input.jpg" width="200" alt="Mount Everest heightmap"> | <img src="assets/gallery/everest_output.jpg" width="300" alt="Mount Everest mesh"> | **Mount Everest**<br>768×768 px<br>217,359 vertices (36.9% of pixels)<br>433,348 triangles<br>max error 6.57 m<br>0.20 s |
-| <img src="assets/gallery/grand_canyon_input.jpg" width="200" alt="Grand Canyon heightmap"> | <img src="assets/gallery/grand_canyon_output.jpg" width="300" alt="Grand Canyon mesh"> | **Grand Canyon**<br>1024×512 px<br>236,522 vertices (45.1% of pixels)<br>471,569 triangles<br>max error 1.83 m<br>0.21 s |
-| <img src="assets/gallery/fuji_input.jpg" width="200" alt="Mount Fuji heightmap"> | <img src="assets/gallery/fuji_output.jpg" width="300" alt="Mount Fuji mesh"> | **Mount Fuji**<br>768×768 px<br>52,463 vertices (8.9% of pixels)<br>104,407 triangles<br>max error 3.58 m<br>0.07 s |
-| <img src="assets/gallery/yosemite_input.jpg" width="200" alt="Yosemite Valley heightmap"> | <img src="assets/gallery/yosemite_output.jpg" width="300" alt="Yosemite Valley mesh"> | **Yosemite Valley**<br>768×512 px<br>101,413 vertices (25.8% of pixels)<br>202,008 triangles<br>max error 1.98 m<br>0.10 s |
-| <img src="assets/gallery/matterhorn_input.jpg" width="200" alt="Matterhorn heightmap"> | <img src="assets/gallery/matterhorn_output.jpg" width="300" alt="Matterhorn mesh"> | **Matterhorn**<br>768×768 px<br>27,830 vertices (4.7% of pixels)<br>55,213 triangles<br>max error 2.65 m<br>0.05 s |
-| <img src="assets/gallery/kilimanjaro_input.jpg" width="200" alt="Kilimanjaro heightmap"> | <img src="assets/gallery/kilimanjaro_output.jpg" width="300" alt="Kilimanjaro mesh"> | **Kilimanjaro**<br>768×768 px<br>115,159 vertices (19.5% of pixels)<br>229,693 triangles<br>max error 5.05 m<br>0.12 s |
-| <img src="assets/gallery/crater_lake_input.jpg" width="200" alt="Crater Lake heightmap"> | <img src="assets/gallery/crater_lake_output.jpg" width="300" alt="Crater Lake mesh"> | **Crater Lake**<br>768×768 px<br>140,954 vertices (23.9% of pixels)<br>281,000 triangles<br>max error 1.26 m<br>0.14 s |
+| ![Pasadena (v1 sample, 8-bit) heightmap](assets/gallery/pasadena_input.jpg) | ![Pasadena (v1 sample, 8-bit) mesh](assets/gallery/pasadena_output.jpg) | **Pasadena (v1 sample, 8-bit)**<br>800×800 px<br>157,014 vertices (24.5% of pixels)<br>313,052 triangles<br>max error 0.79 units<br>0.15 s |
+| ![Mount Everest heightmap](assets/gallery/everest_input.jpg) | ![Mount Everest mesh](assets/gallery/everest_output.jpg) | **Mount Everest**<br>768×768 px<br>217,359 vertices (36.9% of pixels)<br>433,348 triangles<br>max error 6.57 m<br>0.20 s |
+| ![Grand Canyon heightmap](assets/gallery/grand_canyon_input.jpg) | ![Grand Canyon mesh](assets/gallery/grand_canyon_output.jpg) | **Grand Canyon**<br>1024×512 px<br>236,522 vertices (45.1% of pixels)<br>471,569 triangles<br>max error 1.83 m<br>0.21 s |
+| ![Mount Fuji heightmap](assets/gallery/fuji_input.jpg) | ![Mount Fuji mesh](assets/gallery/fuji_output.jpg) | **Mount Fuji**<br>768×768 px<br>52,463 vertices (8.9% of pixels)<br>104,407 triangles<br>max error 3.58 m<br>0.07 s |
+| ![Yosemite Valley heightmap](assets/gallery/yosemite_input.jpg) | ![Yosemite Valley mesh](assets/gallery/yosemite_output.jpg) | **Yosemite Valley**<br>768×512 px<br>101,413 vertices (25.8% of pixels)<br>202,008 triangles<br>max error 1.98 m<br>0.10 s |
+| ![Matterhorn heightmap](assets/gallery/matterhorn_input.jpg) | ![Matterhorn mesh](assets/gallery/matterhorn_output.jpg) | **Matterhorn**<br>768×768 px<br>27,830 vertices (4.7% of pixels)<br>55,213 triangles<br>max error 2.65 m<br>0.05 s |
+| ![Kilimanjaro heightmap](assets/gallery/kilimanjaro_input.jpg) | ![Kilimanjaro mesh](assets/gallery/kilimanjaro_output.jpg) | **Kilimanjaro**<br>768×768 px<br>115,159 vertices (19.5% of pixels)<br>229,693 triangles<br>max error 5.05 m<br>0.12 s |
+| ![Crater Lake heightmap](assets/gallery/crater_lake_input.jpg) | ![Crater Lake mesh](assets/gallery/crater_lake_output.jpg) | **Crater Lake**<br>768×768 px<br>140,954 vertices (23.9% of pixels)<br>281,000 triangles<br>max error 1.26 m<br>0.14 s |
 
 Each row is one command, for example:
 
@@ -54,7 +54,7 @@ Helens at three error limits, in meters:
 
 | `--max-error 3` | `--max-error 10` | `--max-error 30` |
 | --- | --- | --- |
-| <img src="assets/gallery/st_helens_e3.png" width="250" alt="St. Helens mesh, error 3 m"> | <img src="assets/gallery/st_helens_e10.png" width="250" alt="St. Helens mesh, error 10 m"> | <img src="assets/gallery/st_helens_e30.png" width="250" alt="St. Helens mesh, error 30 m"> |
+| ![St. Helens mesh, error 3 m](assets/gallery/st_helens_e3.png) | ![St. Helens mesh, error 10 m](assets/gallery/st_helens_e10.png) | ![St. Helens mesh, error 30 m](assets/gallery/st_helens_e30.png) |
 | 51,931 triangles (10.0% of pixels) | 11,603 triangles (2.2% of pixels) | 2,347 triangles (0.5% of pixels) |
 
 ### Solid for 3D printing
@@ -63,7 +63,7 @@ Helens at three error limits, in meters:
 [`assets/st_helens.stl`](assets/st_helens.stl) on GitHub to rotate a 20,000
 triangle print-ready version in your browser.
 
-<img src="assets/gallery/st_helens_solid_output.jpg" width="480" alt="Mount St. Helens as a closed solid with a base">
+![Mount St. Helens as a closed solid with a base](assets/gallery/st_helens_solid_output.jpg)
 
 ## Install
 
