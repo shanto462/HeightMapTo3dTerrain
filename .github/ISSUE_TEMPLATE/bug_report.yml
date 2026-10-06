@@ -1,0 +1,60 @@
+name: Bug report
+description: Something does not work as expected.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug.
+        Do not report security vulnerabilities here. Use [private vulnerability reporting](https://github.com/shanto462/HeightMapTo3dTerrain/security/advisories/new) instead.
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: A clear description of the bug.
+      placeholder: For example, "The generated STL file has holes near the image border."
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: The exact command you ran and a description of the input heightmap. Attach the image if you can share it.
+      placeholder: |
+        1. hmterrain heightmap.png terrain.glb --max-height 250
+        2. Open terrain.glb in Blender
+        3. See the hole near the left edge
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      placeholder: For example, "A closed mesh with no holes."
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Output of `hmterrain --version`.
+      placeholder: hmterrain 2.0.0
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options:
+        - Linux
+        - macOS
+        - Windows
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Error output
+      description: Any error message or log output. It is formatted as code automatically.
+      render: text

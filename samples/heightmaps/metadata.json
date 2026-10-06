@@ -1,0 +1,75 @@
+{
+  "pasadena": {
+    "file": "pasadena_8bit.png",
+    "width": 800,
+    "height": 800,
+    "min_m": -200,
+    "max_m": 200,
+    "meters_per_pixel": 1,
+    "note": "Original v1 sample. Real elevation range unknown; -200..200 is the v1 README example."
+  },
+  "everest": {
+    "file": "everest_16bit.png",
+    "width": 768,
+    "height": 768,
+    "min_m": 2169.0,
+    "max_m": 8741.0,
+    "meters_per_pixel": 67.497
+  },
+  "grand_canyon": {
+    "file": "grand_canyon_16bit.png",
+    "width": 1024,
+    "height": 512,
+    "min_m": 676.97,
+    "max_m": 2506.19,
+    "meters_per_pixel": 61.76
+  },
+  "fuji": {
+    "file": "fuji_16bit.png",
+    "width": 768,
+    "height": 768,
+    "min_m": 176.0,
+    "max_m": 3754.0,
+    "meters_per_pixel": 31.168
+  },
+  "st_helens": {
+    "file": "st_helens_16bit.png",
+    "width": 512,
+    "height": 512,
+    "min_m": 942.66,
+    "max_m": 2537.14,
+    "meters_per_pixel": 13.229
+  },
+  "yosemite": {
+    "file": "yosemite_16bit.png",
+    "width": 768,
+    "height": 512,
+    "min_m": 1046.41,
+    "max_m": 3024.23,
+    "meters_per_pixel": 30.221
+  },
+  "matterhorn": {
+    "file": "matterhorn_16bit.png",
+    "width": 768,
+    "height": 768,
+    "min_m": 1701.18,
+    "max_m": 4354.48,
+    "meters_per_pixel": 13.28
+  },
+  "kilimanjaro": {
+    "file": "kilimanjaro_16bit.png",
+    "width": 768,
+    "height": 768,
+    "min_m": 828.0,
+    "max_m": 5883.0,
+    "meters_per_pixel": 76.328
+  },
+  "crater_lake": {
+    "file": "crater_lake_16bit.png",
+    "width": 768,
+    "height": 768,
+    "min_m": 1452.58,
+    "max_m": 2714.5,
+    "meters_per_pixel": 27.979
+  }
+}
