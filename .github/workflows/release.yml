@@ -221,6 +221,8 @@ jobs:
 
   attest:
     name: Attest
+    # Only v* tags may deploy to this environment (repository setting).
+    environment: release
     if: github.event_name == 'push'
     needs: checksums
     runs-on: ubuntu-latest
@@ -241,6 +243,8 @@ jobs:
 
   publish:
     name: Publish GitHub Release
+    # Only v* tags may deploy to this environment (repository setting).
+    environment: release
     if: github.event_name == 'push'
     needs: [prepare, attest]
     runs-on: ubuntu-latest
