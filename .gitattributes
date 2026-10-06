@@ -1,0 +1,14 @@
+# Normalize all text files to LF in the repository and working tree.
+* text=auto eol=lf
+
+# Binary files: never touch line endings or show text diffs.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.bmp binary
+*.tga binary
+*.tif binary
+*.tiff binary
+*.glb binary
+*.stl binary
+*.ply binary

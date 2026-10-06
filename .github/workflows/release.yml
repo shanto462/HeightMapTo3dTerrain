@@ -1,0 +1,281 @@
+name: Release
+
+# A pushed tag like v2.0.0 builds, attests and publishes a GitHub Release.
+# A manual run (workflow_dispatch), or a pull request that changes this
+# workflow or the build inputs, is a dry run: it builds and packages every
+# target but does not attest or publish.
+
+on:
+  push:
+    tags: ['v*.*.*']
+  pull_request:
+    paths:
+      - .github/workflows/release.yml
+      - Cargo.toml
+      - Cargo.lock
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  CARGO_TERM_COLOR: always
+  CARGO_INCREMENTAL: 0
+
+jobs:
+  prepare:
+    name: Prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Read version and verify tag
+        id: version
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          version="$(sed -n '/^\[package\]/,/^\[/{s/^version[[:space:]]*=[[:space:]]*"\([^"]*\)".*/\1/p;}' Cargo.toml | head -n 1)"
+          if ! printf '%s' "$version" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$'; then
+            echo "::error file=Cargo.toml::Could not read a valid package version from Cargo.toml"
+            exit 1
+          fi
+          if [ "$EVENT_NAME" = "push" ] && [ "$REF_NAME" != "v$version" ]; then
+            echo "::error::Tag $REF_NAME does not match Cargo.toml version v$version"
+            exit 1
+          fi
+          echo "Version: $version"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+      - name: Extract release notes from CHANGELOG.md
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          if [ -f CHANGELOG.md ]; then
+            # Print the body of the "## [x.y.z]" section, stop at the next
+            # "## [" heading, and drop link reference lines like "[x.y.z]: url".
+            awk -v ver="$VERSION" '
+              /^## \[/ {
+                if (found) exit
+                if (index($0, "## [" ver "]") == 1) { found = 1; next }
+              }
+              found && /^\[[^ ]*\]: / { next }
+              found && !started && /^[ \t]*$/ { next }
+              found { started = 1; print }
+            ' CHANGELOG.md > release-notes.md
+          else
+            : > release-notes.md
+          fi
+          if ! grep -q '[^[:space:]]' release-notes.md; then
+            if [ "$EVENT_NAME" = "push" ]; then
+              echo "::error file=CHANGELOG.md::No '## [$VERSION]' section with content found in CHANGELOG.md"
+              exit 1
+            fi
+            echo "::warning file=CHANGELOG.md::No '## [$VERSION]' section found in CHANGELOG.md (dry run)"
+            echo "Dry run: no changelog section found for $VERSION." > release-notes.md
+          fi
+          {
+            echo "## Release notes for $VERSION"
+            echo
+            cat release-notes.md
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload release notes
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: release-notes
+          path: release-notes.md
+          if-no-files-found: error
+          retention-days: 7
+
+  build:
+    name: Build ${{ matrix.target }}
+    needs: prepare
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: x86_64-unknown-linux-gnu
+            os: ubuntu-latest
+            smoke: true
+          - target: aarch64-unknown-linux-gnu
+            os: ubuntu-24.04-arm
+            smoke: true
+          - target: x86_64-unknown-linux-musl
+            os: ubuntu-latest
+            smoke: true
+          - target: aarch64-apple-darwin
+            os: macos-latest
+            smoke: true
+          - target: x86_64-apple-darwin
+            os: macos-latest
+            smoke: false
+          - target: x86_64-pc-windows-msvc
+            os: windows-latest
+            smoke: true
+          - target: aarch64-pc-windows-msvc
+            os: windows-11-arm
+            smoke: true
+    defaults:
+      run:
+        shell: bash
+    env:
+      TARGET: ${{ matrix.target }}
+      VERSION: ${{ needs.prepare.outputs.version }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install Rust
+        run: |
+          rustup toolchain install stable --profile minimal --target "$TARGET" --no-self-update
+          rustup default stable
+          rustc --version
+      - name: Install musl tools
+        if: endsWith(matrix.target, '-musl')
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends musl-tools
+      - name: Build
+        run: cargo build --release --locked --bin hmterrain --target "$TARGET"
+      - name: Smoke test
+        if: matrix.smoke
+        run: |
+          exe=""
+          if [ "$RUNNER_OS" = "Windows" ]; then exe=".exe"; fi
+          "target/$TARGET/release/hmterrain$exe" --version
+      - name: Stage files
+        id: stage
+        run: |
+          exe=""
+          if [ "$RUNNER_OS" = "Windows" ]; then exe=".exe"; fi
+          name="hmterrain-$VERSION-$TARGET"
+          mkdir -p "dist/$name"
+          cp "target/$TARGET/release/hmterrain$exe" README.md LICENSE CHANGELOG.md "dist/$name/"
+          echo "name=$name" >> "$GITHUB_OUTPUT"
+      - name: Create tar.gz archive
+        if: runner.os != 'Windows'
+        env:
+          ARCHIVE_NAME: ${{ steps.stage.outputs.name }}
+          COPYFILE_DISABLE: '1'
+        run: tar -C dist -czf "dist/$ARCHIVE_NAME.tar.gz" "$ARCHIVE_NAME"
+      - name: Create zip archive
+        if: runner.os == 'Windows'
+        shell: pwsh
+        env:
+          ARCHIVE_NAME: ${{ steps.stage.outputs.name }}
+        run: Compress-Archive -Path "dist/$env:ARCHIVE_NAME" -DestinationPath "dist/$env:ARCHIVE_NAME.zip"
+      - name: Upload archive
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: dist-${{ matrix.target }}
+          path: |
+            dist/*.tar.gz
+            dist/*.zip
+          if-no-files-found: error
+          retention-days: 7
+
+  checksums:
+    name: Checksums
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions: {}
+    steps:
+      - name: Download archives
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          pattern: dist-*
+          path: dist
+          merge-multiple: true
+      - name: Generate SHA256SUMS
+        working-directory: dist
+        run: |
+          sha256sum hmterrain-* > SHA256SUMS
+          {
+            echo '## SHA256SUMS'
+            echo
+            echo '```text'
+            cat SHA256SUMS
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload release assets
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: release-assets
+          path: dist/
+          if-no-files-found: error
+          retention-days: 7
+
+  attest:
+    name: Attest
+    # Only v* tags may deploy to this environment (repository setting).
+    environment: release
+    if: github.event_name == 'push'
+    needs: checksums
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      id-token: write # mint the OIDC token for the Sigstore certificate
+      attestations: write # store the build provenance attestation
+    steps:
+      - name: Download release assets
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: release-assets
+          path: dist
+      - name: Generate build provenance
+        uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          subject-checksums: dist/SHA256SUMS
+
+  publish:
+    name: Publish GitHub Release
+    # Only v* tags may deploy to this environment (repository setting).
+    environment: release
+    if: github.event_name == 'push'
+    needs: [prepare, attest]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write # create the GitHub Release and upload assets
+    steps:
+      - name: Download release assets
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: release-assets
+          path: dist
+      - name: Download release notes
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: release-notes
+          path: notes
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+          VERSION: ${{ needs.prepare.outputs.version }}
+        run: |
+          flags=()
+          case "$VERSION" in
+            *-*) flags+=(--prerelease) ;;
+          esac
+          gh release create "$TAG" \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "$TAG" \
+            --notes-file notes/release-notes.md \
+            --verify-tag \
+            "${flags[@]}" \
+            dist/*
