@@ -1,12 +1,18 @@
 name: Release
 
 # A pushed tag like v2.0.0 builds, attests and publishes a GitHub Release.
-# A manual run (workflow_dispatch) is a dry run: it builds and packages
-# everything but does not attest or publish.
+# A manual run (workflow_dispatch), or a pull request that changes this
+# workflow or the build inputs, is a dry run: it builds and packages every
+# target but does not attest or publish.
 
 on:
   push:
     tags: ['v*.*.*']
+  pull_request:
+    paths:
+      - .github/workflows/release.yml
+      - Cargo.toml
+      - Cargo.lock
   workflow_dispatch:
 
 permissions: {}
